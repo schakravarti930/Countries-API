@@ -4,47 +4,71 @@ import Country from "../../Components/Country/Country";
 import Nav from "../../Components/Nav/Nav";
 import Select from "../../Components/Select/select";
 import Search from "../../Components/Search/Search";
+import { Link } from "react-router-dom";
 
-const Home = () => {
-  const [countries, setCountries] = useState(null);
-  const [selected, setSelected] = useState("");
-  const [searchTerm,setSearchTerm] = useState("");
+const Home = ({countries}) => {
+  const [region, setRegion] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredCountries, setFilteredCountries] = useState(null);
 
-  const fetchCountries = async () => {
-    const response = await fetch("https://restcountries.com/v2/all");
-    const data = await response.json();
-    setCountries(data);
-    //console.log(countries);
-  };
+  // const fetchCountries = async () => {
+  //   const response = await fetch("https://restcountries.com/v2/all");
+  //   const data = await response.json();
+  //   setCountries(data);
+  //   setFilteredCountries(data);
+  //   console.log("I ran")
+  // };
 
   useEffect(() => {
-    fetchCountries();
-  }, []);
-  
-  const filteredCountries = countries ? countries.filter(country => country.name.toLowerCase().includes(searchTerm.toLowerCase())) : [];
+    //fetchCountries();
+    setFilteredCountries(countries);
+  }, [countries]);
 
-  const countryCards = filteredCountries
-    ? filteredCountries.map((country) => (
-        <Country key={country.name} country={country} />
-      ))
-    : [];
-
-  const handleSelect = (e) => {
-    setSelected(e);
-  };
-
-  const handleSearch = e => {
-      setSearchTerm(e);
+  console.log(countries);
+  const textSearch = (data) => {
+    if(data){
+      return data.filter(country => country.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    }
+    return []
   }
 
+  const regionSearch = (data) => {
+    if(data){
+      if(region === "all" || region === "")
+        return data;
+      return data.filter(country => country.region.toLowerCase() === region);
+    }
+    return []
+  }
+
+  useEffect(() => {
+    const search_filtered = textSearch(countries);
+    const region_filtered = regionSearch(search_filtered);
+    setFilteredCountries(region_filtered);
+  },[searchTerm,countries,region]);
+
+  const handleSelect = (e) => {
+    setRegion(e);
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e);
+  };
 
   return (
     <div className="Home">
-      <Nav />
-      <Search onSearch = {handleSearch}/>
+      <Search onSearch={handleSearch} placeholder="Search for a country..."/>
       <Select onSelect={handleSelect} />
       <div className="country_grid">
-        {!countries ? <div>Loading</div> : countryCards}
+        {!filteredCountries ? <div>Loading</div> : 
+          filteredCountries.map(country => (
+            <Link
+              className="Link"
+              style={{textDecoration:"none"}} 
+              to={`/${country.name}`}>
+              <Country key={country.name} country={country} />
+            </Link>
+          ))}
       </div>
     </div>
   );

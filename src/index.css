@@ -12,6 +12,7 @@
   --text-normal:1em;
   --text-small: 0.8em;
   margin: -10px;
+  box-sizing: border-box;
 }
 
 .light{
@@ -32,4 +33,9 @@
 }
 .text-small{
   font-size: var(--text-small);
+}
+
+.Link,.Link:hover,.Link:active,.Link:visited,.Link:focus{
+  text-decoration: none;
+  color: inherit;
 }

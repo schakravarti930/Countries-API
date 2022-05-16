@@ -1,5 +1,6 @@
 .country_grid{
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns: repeat(auto-fit,minmax(265px,1fr));
+    gap: 2em 1em;
     place-items: center;
 }

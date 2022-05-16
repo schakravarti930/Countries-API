@@ -1,3 +1,5 @@
+import "./search.css";
+
 const Search = (props) => {
 
     const handleChange = (e) => {
@@ -6,7 +8,8 @@ const Search = (props) => {
 
     return(
         <input type="search"
-        onChange={handleChange}/>
+        onChange={handleChange}
+        placeholder={props.placeholder}/>
     )
 }
 
