@@ -65,7 +65,7 @@ const Home = ({countries}) => {
             <Link
               className="Link"
               style={{textDecoration:"none"}} 
-              to={`/${country.name}`}>
+              to={`/${country.alpha3Code}`}>
               <Country key={country.name} country={country} />
             </Link>
           ))}

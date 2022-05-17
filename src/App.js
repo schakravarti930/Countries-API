@@ -25,7 +25,7 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Home countries={countries}/>}/>
-          <Route path=":CountryName" element={<Details countries={countries}/>}/>
+          <Route path=":CountryId" element={<Details />}/>
         </Routes>
       </BrowserRouter>
     </div>
